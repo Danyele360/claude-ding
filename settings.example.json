@@ -36,6 +36,18 @@
           }
         ]
       }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py C:/Users/<tuo-utente>/.claude/hooks/stop_sound.py",
+            "async": true,
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }

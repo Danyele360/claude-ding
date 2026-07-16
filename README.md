@@ -12,9 +12,12 @@ Claude Code supporta gli **hooks**: comandi shell eseguiti automaticamente in ri
 |---|---|---|
 | `Stop` | Claude ha finito di rispondere | subito |
 | `PreToolUse` (matcher `AskUserQuestion`) | Claude ti mostra una domanda a scelta multipla | subito |
-| `Notification` | Prompt di permesso (Allow/Deny) o input fermo | subito / dopo 60s di inattività |
+| `PermissionRequest` | Appare il dialogo di permesso (Allow/Deny) | subito |
+| `Notification` | Notifiche generiche o input fermo | subito / dopo 60s di inattività |
 
-Tutti e tre lanciano lo stesso script Python che riproduce un suono.
+Tutti lanciano lo stesso script Python che riproduce un suono.
+
+> 💡 Per i prompt di permesso usa `PermissionRequest`, non `Notification`: in alcuni ambienti (es. estensione VSCode) `Notification` non scatta in modo affidabile per i dialoghi Allow/Deny.
 
 ## Requisiti
 
@@ -110,6 +113,18 @@ Apri (o crea) `C:\Users\<tuo-utente>\.claude\settings.json` e aggiungi la sezion
           }
         ]
       }
+    ],
+    "PermissionRequest": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "py C:/Users/<tuo-utente>/.claude/hooks/stop_sound.py",
+            "async": true,
+            "timeout": 10
+          }
+        ]
+      }
     ]
   }
 }
@@ -146,6 +161,7 @@ winsound.PlaySound(r"C:\Windows\Media\tada.wav", winsound.SND_FILENAME)
 | Nessun suono, mai | Testa lo script a mano: `py ...\stop_sound.py`. Se suona, ricarica la config con `/hooks` o riavvia |
 | `Python was not found` | Usa il launcher `py` invece di `python` (l'alias Microsoft Store spesso non funziona), oppure installa Python da [python.org](https://www.python.org/downloads/) |
 | Il suono di "attesa input" arriva tardi | È normale: l'evento `Notification` per inattività scatta dopo 60 secondi (soglia fissa di Claude Code). Per le domande usa l'hook `PreToolUse` su `AskUserQuestion`, che è istantaneo |
+| Nessun suono sui prompt Allow/Deny | Usa l'evento `PermissionRequest` invece di `Notification`: scatta esattamente quando appare il dialogo, in ogni ambiente |
 | JSON rotto = hook spariti | Un `settings.json` malformato disattiva silenziosamente **tutte** le impostazioni del file. Valida il JSON dopo ogni modifica |
 
 ## Riferimenti
