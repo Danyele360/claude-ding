@@ -71,7 +71,7 @@ mci("play ding wait")
 mci("close ding")
 ```
 
-Ricorda di aggiornare `SOUND_FILE` con il percorso del tuo MP3.
+Ricorda di aggiornare `SOUND_FILE` con il percorso del tuo MP3. In questa repo trovi [`sounds/ding.mp3`](sounds/ding.mp3) già pronto.
 
 ### Testa lo script
 
@@ -181,7 +181,16 @@ Il BEL ti dà la vibrazione, ma il suono è quello del client SSH. Per sentire *
    ```
 
 4. Nell'app ntfy iscriviti allo stesso topic
-5. Metti il tuo mp3 nella cartella `Notifications/` della memoria interna del telefono, poi nell'app ntfy: impostazioni della sottoscrizione → **suono personalizzato** → scegli il tuo file
+5. Metti un mp3 nella cartella `Notifications/` della memoria interna del telefono, poi nell'app ntfy: impostazioni della sottoscrizione → **suono personalizzato** → scegli il file
+
+   In questa repo trovi [`sounds/ding.mp3`](sounds/ding.mp3) già pronto (0,7 secondi). Dal telefono:
+
+   ```bash
+   curl -o /sdcard/Notifications/ding.mp3 \
+     https://raw.githubusercontent.com/Danyele360/claude-ding/main/sounds/ding.mp3
+   ```
+
+   Oppure scaricalo dal browser e spostalo in `Notifications/` con un file manager.
 
 Ogni chiave è sovrascrivibile da variabile d'ambiente: `CLAUDE_DING_NTFY_TOPIC`, `CLAUDE_DING_NTFY_SERVER`, `CLAUDE_DING_BELL_DURATION`, `CLAUDE_DING_BELL_INTERVAL`.
 
